@@ -11,25 +11,25 @@ from .models import UploadedData
 from .serializers import DataSerializer, GetFullUserSerializer, UserSerializerWithToken
 # Create your views here.
 
-@api_view(["GET", "POST"])
-@authentication_classes([JSONWebTokenAuthentication, BasicAuthentication])
+@api_view(["GET"])
 @permission_classes([permissions.IsAuthenticated])
-@csrf_exempt
 def data_list(request):
-    if request.method == 'GET':
-        data = UploadedData.objects.all()
-        serializer = DataSerializer(data, many=True)
-        return JsonResponse(serializer.data, safe=False)
+    data = UploadedData.objects.all()
+    serializer = DataSerializer(data, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = DataSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
 
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def set_list(request):
+    data = request.data['body']
+    serializer = DataSerializer(data=data, many=True)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=201, safe=False)
+    return JsonResponse(serializer.errors, status=400, safe=False)
 @api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
 def get_current_user(request):
     serializer = GetFullUserSerializer(request.user)
     return Response(serializer.data)

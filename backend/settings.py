@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -88,10 +89,14 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+#     'http://127.0.0.1:8000',
+#     'http://localhost:8000',
+# )
+# CORS_ALLOW_CREDENTIALS = True
 
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER' :   'jsondata.utils.custom_jwt_response_handler'

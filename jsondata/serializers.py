@@ -6,7 +6,7 @@ from backend import settings
 class DataSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedData
-        fields = ['userId', 'id', 'title']
+        fields = ['userId', 'id', 'title', 'body']
 
 class GetFullUserSerializer(serializers.ModelSerializer):
     class Meta:
